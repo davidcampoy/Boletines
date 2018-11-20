@@ -5,7 +5,7 @@ import java.util.InputMismatchException;
 public class Ejercicio1 {
 	
 	/*
-	 * 1.- Pedir al usuario dos números y un símbolo de operación.
+	 * 1.- Pedir al usuario dos números enteros y un símbolo de operación.
 	 * 2.- Realizar la operación.
 	 */
 
