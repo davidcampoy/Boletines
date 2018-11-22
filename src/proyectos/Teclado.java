@@ -8,6 +8,8 @@ public class Teclado {
 	
 	public static void main(String[] args) {
 		
+		short num = 7;
+		
 		// Pruebas de las funciones (Retirar las barras de la prueba que se quiera comprobar).
 		
 		
@@ -26,6 +28,8 @@ public class Teclado {
 		//System.out.println(readFloat());
 		
 		//System.out.println(readDouble());
+		
+		//System.out.println(compNum(num, Compare.Mayor));
 		
 	}
 	
@@ -82,7 +86,6 @@ public class Teclado {
 	 * 1.- Pedir un número comprendido entre -128 y 127.
 	 * 2.- Devolver el número.
 	 */
-	
 	public static byte readByte() {
 		
 		byte num = 0;
@@ -268,4 +271,324 @@ public class Teclado {
 		return num;
 	}
 	
+	// Opciones para las funciones compNum
+	public enum Compare{
+		Mayor_o_igual, Menor_o_igual, Mayor, Menor;
+	}
+	
+	/*
+	 * 1.- Indicarle un valor al usuario.
+	 * 2.- Pedirle al usuario un número mayor / menor o igual al número que se le indicó primero (según se le indique).
+	 * 3.- Devolver el valor.
+	 */
+	public static byte compNum(byte limit, Compare operator) {
+		
+		byte num = 0;
+		boolean end = true;
+		
+		do {
+			end = true;
+			
+			try {
+				if(operator == Compare.Mayor_o_igual) {
+					do {
+						System.out.println("Indica un número mayor o igual a " + limit + ": ");
+						num = scan.nextByte();
+					}while(num < limit);
+					
+				}else if(operator == Compare.Menor_o_igual) {
+					do {
+						System.out.println("Indica un número menor o igual a " + limit + ": ");
+						num = scan.nextByte();
+					}while(num > limit);
+					
+				}else if(operator == Compare.Mayor) {
+					do {
+						System.out.println("Indica un número mayor a " + limit + ": ");
+						num = scan.nextByte();
+					}while(num <= limit);
+					
+				}else if(operator == Compare.Menor) {
+					do {
+						System.out.println("Indica un número menor a " + limit + ": ");
+						num = scan.nextByte();
+					}while(num >= limit);
+					
+				}
+			}catch(InputMismatchException e) {
+				end = false;
+			}finally {
+				scan.nextLine();
+			}
+			
+		}while(!end);
+		
+		return num;
+		
+	}
+	
+	/*
+	 * 1.- Indicarle un valor al usuario.
+	 * 2.- Pedirle al usuario un número mayor / menor o igual al número que se le indicó primero (según se le indique).
+	 * 3.- Devolver el valor.
+	 */
+	public static short compNum(short limit, Compare operator) {
+		
+		short num = 0;
+		boolean end = true;
+		
+		do {
+			end = true;
+			
+			try {
+				if(operator == Compare.Mayor_o_igual) {
+					do {
+						System.out.println("Indica un número mayor o igual a " + limit + ": ");
+						num = scan.nextShort();
+					}while(num < limit);
+					
+				}else if(operator == Compare.Menor_o_igual) {
+					do {
+						System.out.println("Indica un número menor o igual a " + limit + ": ");
+						num = scan.nextShort();
+					}while(num > limit);
+					
+				}else if(operator == Compare.Mayor) {
+					do {
+						System.out.println("Indica un número mayor a " + limit + ": ");
+						num = scan.nextShort();
+					}while(num <= limit);
+					
+				}else if(operator == Compare.Menor) {
+					do {
+						System.out.println("Indica un número menor a " + limit + ": ");
+						num = scan.nextShort();
+					}while(num >= limit);
+					
+				}
+			}catch(InputMismatchException e) {
+				end = false;
+			}finally {
+				scan.nextLine();
+			}
+			
+		}while(!end);
+		
+		return num;
+		
+	}
+	
+	/*
+	 * 1.- Indicarle un valor al usuario.
+	 * 2.- Pedirle al usuario un número mayor / menor o igual al número que se le indicó primero (según se le indique).
+	 * 3.- Devolver el valor.
+	 */
+	public static int compNum(int limit, Compare operator) {
+		
+		int num = 0;
+		boolean end = true;
+		
+		do {
+			end = true;
+			
+			try {
+				if(operator == Compare.Mayor_o_igual) {
+					do {
+						System.out.println("Indica un número mayor o igual a " + limit + ": ");
+						num = scan.nextInt();
+					}while(num < limit);
+					
+				}else if(operator == Compare.Menor_o_igual) {
+					do {
+						System.out.println("Indica un número menor o igual a " + limit + ": ");
+						num = scan.nextInt();
+					}while(num > limit);
+					
+				}else if(operator == Compare.Mayor) {
+					do {
+						System.out.println("Indica un número mayor a " + limit + ": ");
+						num = scan.nextInt();
+					}while(num <= limit);
+					
+				}else if(operator == Compare.Menor) {
+					do {
+						System.out.println("Indica un número menor a " + limit + ": ");
+						num = scan.nextInt();
+					}while(num >= limit);
+					
+				}
+			}catch(InputMismatchException e) {
+				end = false;
+			}finally {
+				scan.nextLine();
+			}
+			
+		}while(!end);
+		
+		return num;
+		
+	}
+	
+	/*
+	 * 1.- Indicarle un valor al usuario.
+	 * 2.- Pedirle al usuario un número mayor / menor o igual al número que se le indicó primero (según se le indique).
+	 * 3.- Devolver el valor.
+	 */
+	public static long compNum(long limit, Compare operator) {
+		
+		long num = 0;
+		boolean end = true;
+		
+		do {
+			end = true;
+			
+			try {
+				if(operator == Compare.Mayor_o_igual) {
+					do {
+						System.out.println("Indica un número mayor o igual a " + limit + ": ");
+						num = scan.nextLong();
+					}while(num < limit);
+					
+				}else if(operator == Compare.Menor_o_igual) {
+					do {
+						System.out.println("Indica un número menor o igual a " + limit + ": ");
+						num = scan.nextLong();
+					}while(num > limit);
+					
+				}else if(operator == Compare.Mayor) {
+					do {
+						System.out.println("Indica un número mayor a " + limit + ": ");
+						num = scan.nextLong();
+					}while(num <= limit);
+					
+				}else if(operator == Compare.Menor) {
+					do {
+						System.out.println("Indica un número menor a " + limit + ": ");
+						num = scan.nextLong();
+					}while(num >= limit);
+					
+				}
+			}catch(InputMismatchException e) {
+				end = false;
+			}finally {
+				scan.nextLine();
+			}
+			
+		}while(!end);
+		
+		return num;
+		
+	}
+
+	/*
+	 * 1.- Indicarle un valor al usuario.
+	 * 2.- Pedirle al usuario un número mayor / menor o igual al número que se le indicó primero (según se le indique).
+	 * 3.- Devolver el valor.
+	 */
+	public static float compNum(float limit, Compare operator) {
+		
+		float num = 0;
+		boolean end = true;
+		
+		do {
+			end = true;
+			
+			try {
+				if(operator == Compare.Mayor_o_igual) {
+					do {
+						System.out.println("Indica un número mayor o igual a " + limit + ": ");
+						num = scan.nextFloat();
+					}while(num < limit);
+					
+				}else if(operator == Compare.Menor_o_igual) {
+					do {
+						System.out.println("Indica un número menor o igual a " + limit + ": ");
+						num = scan.nextFloat();
+					}while(num > limit);
+					
+				}else if(operator == Compare.Mayor) {
+					do {
+						System.out.println("Indica un número mayor a " + limit + ": ");
+						num = scan.nextFloat();
+					}while(num <= limit);
+					
+				}else if(operator == Compare.Menor) {
+					do {
+						System.out.println("Indica un número menor a " + limit + ": ");
+						num = scan.nextFloat();
+					}while(num >= limit);
+					
+				}
+			}catch(InputMismatchException e) {
+				end = false;
+			}finally {
+				scan.nextLine();
+			}
+			
+		}while(!end);
+		
+		return num;
+		
+	}
+
+	/*
+	 * 1.- Indicarle un valor al usuario.
+	 * 2.- Pedirle al usuario un número mayor / menor o igual al número que se le indicó primero (según se le indique).
+	 * 3.- Devolver el valor.
+	 */
+	public static double compNum(double limit, Compare operator) {
+		
+		double num = 0;
+		boolean end = true;
+		
+		do {
+			end = true;
+			
+			try {
+				if(operator == Compare.Mayor_o_igual) {
+					do {
+						System.out.println("Indica un número mayor o igual a " + limit + ": ");
+						num = scan.nextDouble();
+					}while(num < limit);
+					
+				}else if(operator == Compare.Menor_o_igual) {
+					do {
+						System.out.println("Indica un número menor o igual a " + limit + ": ");
+						num = scan.nextDouble();
+					}while(num > limit);
+					
+				}else if(operator == Compare.Mayor) {
+					do {
+						System.out.println("Indica un número mayor a " + limit + ": ");
+						num = scan.nextDouble();
+					}while(num <= limit);
+					
+				}else if(operator == Compare.Menor) {
+					do {
+						System.out.println("Indica un número menor a " + limit + ": ");
+						num = scan.nextDouble();
+					}while(num >= limit);
+					
+				}
+			}catch(InputMismatchException e) {
+				end = false;
+			}finally {
+				scan.nextLine();
+			}
+			
+		}while(!end);
+		
+		return num;
+		
+	}
+	
+	public static byte rangNum(byte min, byte max) {
+		
+		byte num = 0;
+		boolean end = true;
+		
+		System.out.println("Escribe un número comprendido entre " + min + "y " + max + ": ");
+		num = scan.nextByte();
+		
+	}
 }
