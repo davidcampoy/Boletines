@@ -6,37 +6,6 @@ public class Teclado {
 	
 	static Scanner scan = new Scanner(System.in);
 	
-	public static void main(String[] args) {
-		
-		byte min = 10, max = 20;
-		
-		// Pruebas de las funciones (Retirar las barras de la prueba que se quiera comprobar).
-		
-		
-		//System.out.println(readChar());
-		
-		//System.out.println(readString());
-		
-		//System.out.println(readByte());
-		
-		//System.out.println(readShort());
-		
-		//System.out.println(readInt());
-		
-		//System.out.println(readLong());
-		
-		//System.out.println(readFloat());
-		
-		//System.out.println(readDouble());
-		
-		//System.out.println(compNum(num, Compare.Mayor));
-		
-		//System.out.println(rangNum(min, max, Range.MaxIncluded));
-		
-		System.out.println(choose("Elige una opción", "Opción 1", "Opción 2"));
-		
-	}
-	
 	public static void closeScan() { // Cerrar teclado
 		scan.close();		
 	}
@@ -56,7 +25,7 @@ public class Teclado {
 			System.out.println("Introduce un carácter: ");
 			string = scan.nextLine();
 			
-			if(string.length() > 1) {
+			if(string.length() > 1) { // En caso de introducir varios caracteres se repite la función.
 				System.out.println("Introduce solo un carácter.");
 				end = false;
 			}else {
@@ -99,7 +68,7 @@ public class Teclado {
 			
 			try {
 		
-				System.out.println("Escribe un número comprendido entre -128 y 127: ");
+				System.out.println("Escribe un número: ");
 				num = scan.nextByte();
 				
 				end = true;
@@ -131,7 +100,7 @@ public class Teclado {
 			
 			try {
 		
-				System.out.println("Escribe un número comprendido entre -32768 y 32767: ");
+				System.out.println("Escribe un número: ");
 				num = scan.nextShort();
 				
 				end = true;
@@ -163,7 +132,7 @@ public class Teclado {
 			
 			try {
 		
-				System.out.println("Escribe un número comprendido entre -2.147.483.648 y 2.147.483.649: ");
+				System.out.println("Escribe un número: ");
 				num = scan.nextInt();
 				
 				end = true;
@@ -195,7 +164,7 @@ public class Teclado {
 			
 			try {
 		
-				System.out.println("Escribe un número comprendido entre -9 * 10^18 y 9 * 10^18: ");
+				System.out.println("Escribe un número: ");
 				num = scan.nextLong();
 				
 				end = true;
@@ -226,7 +195,7 @@ public class Teclado {
 			
 			try {
 		
-				System.out.println("Escribe un número comprendido entre -3,4 * 10^38 y 3,4 * 10^38: ");
+				System.out.println("Escribe un número decimal: ");
 				num = scan.nextFloat();
 				
 				end = true;
@@ -257,7 +226,7 @@ public class Teclado {
 			
 			try {
 		
-				System.out.println("Escribe un número comprendido entre -1,79 * 10^308 y 1,79 * 10^308: ");
+				System.out.println("Escribe un número decimal: ");
 				num = scan.nextDouble();
 				
 				end = true;
@@ -640,6 +609,13 @@ public class Teclado {
 		return num;
 	}
 	
+	/*
+	 * 1.- Indicar un número mínimo y máximo.
+	 * 2.- Pedir al usuario un número comprendido entre esos números mínimo y máximo.
+	 * 	2.1.- Si el mínimo es mayor al máximo, se avisará al usuario mediante una excepción.
+	 * 	2.2.- Si el mínimo es menor o igual al máximo, se seguirá con la petición.
+	 * 3.- Devolver el valor.
+	 */
 	public static short rangNum(short min, short max, Range option) {
 		
 		short num = 0;
@@ -682,6 +658,13 @@ public class Teclado {
 		return num;
 	}
 	
+	/*
+	 * 1.- Indicar un número mínimo y máximo.
+	 * 2.- Pedir al usuario un número comprendido entre esos números mínimo y máximo.
+	 * 	2.1.- Si el mínimo es mayor al máximo, se avisará al usuario mediante una excepción.
+	 * 	2.2.- Si el mínimo es menor o igual al máximo, se seguirá con la petición.
+	 * 3.- Devolver el valor.
+	 */
 	public static int rangNum(int min, int max, Range option) {
 		
 		int num = 0;
@@ -724,6 +707,13 @@ public class Teclado {
 		return num;
 	}
 	
+	/*
+	 * 1.- Indicar un número mínimo y máximo.
+	 * 2.- Pedir al usuario un número comprendido entre esos números mínimo y máximo.
+	 * 	2.1.- Si el mínimo es mayor al máximo, se avisará al usuario mediante una excepción.
+	 * 	2.2.- Si el mínimo es menor o igual al máximo, se seguirá con la petición.
+	 * 3.- Devolver el valor.
+	 */
 	public static long rangNum(long min, long max, Range option) {
 		
 		long num = 0;
@@ -766,6 +756,13 @@ public class Teclado {
 		return num;
 	}
 
+	/*
+	 * 1.- Indicar un número mínimo y máximo.
+	 * 2.- Pedir al usuario un número comprendido entre esos números mínimo y máximo.
+	 * 	2.1.- Si el mínimo es mayor al máximo, se avisará al usuario mediante una excepción.
+	 * 	2.2.- Si el mínimo es menor o igual al máximo, se seguirá con la petición.
+	 * 3.- Devolver el valor.
+	 */
 	public static float rangNum(float min, float max, Range option) {
 		
 		float num = 0;
@@ -808,6 +805,13 @@ public class Teclado {
 		return num;
 	}
 
+	/*
+	 * 1.- Indicar un número mínimo y máximo.
+	 * 2.- Pedir al usuario un número comprendido entre esos números mínimo y máximo.
+	 * 	2.1.- Si el mínimo es mayor al máximo, se avisará al usuario mediante una excepción.
+	 * 	2.2.- Si el mínimo es menor o igual al máximo, se seguirá con la petición.
+	 * 3.- Devolver el valor.
+	 */
 	public static double rangNum(double min, double max, Range option) {
 		
 		double num = 0;
