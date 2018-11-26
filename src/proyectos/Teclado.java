@@ -7,7 +7,8 @@ public class Teclado {
 	static Scanner scan = new Scanner(System.in);
 	
 	public static void closeScan() { // Cerrar teclado
-		scan.close();		
+		System.out.println("Cerrando teclado...");
+		scan.close();
 	}
 	
 	/*
@@ -871,7 +872,7 @@ public class Teclado {
 			
 			try {
 				do {
-					System.out.println(msg1 + "\n\t1.-" + msg2 + "\n\t2.-" + msg3);
+					System.out.println(msg1 + "\n\t1.- " + msg2 + "\n\t2.- " + msg3);
 					numOption = scan.nextInt();
 				}while(numOption < 1 || numOption > 2);
 				
@@ -908,7 +909,7 @@ public class Teclado {
 			
 			end = true;
 			
-			System.out.println(msg + "(s / n)");
+			System.out.println(msg + " (s / n)");
 			answer = scan.nextLine();
 			
 			if(answer.equals("s")) {
