@@ -13,7 +13,8 @@ public class Teclado {
 	
 	/*
 	 * 1.- Pedir un carácter al usuario.
-	 * 2.- Devolverlo.
+	 * 1.1.- Repetir la petición en caso de indicar el usuario más de un carácter, número o símbolo.
+	 * 2.- Devolver el carácter.
 	 */
 	public static char readChar() {
 				
