@@ -1,4 +1,5 @@
 package Excepciones;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Ejercicio2 {
@@ -12,7 +13,20 @@ public class Ejercicio2 {
 		
 		Scanner scan = new Scanner(System.in);
 		
+		boolean end;
 		
+		do {
+			end = true;
+			
+			try {
+				
+				
+				
+			}catch(InputMismatchException e) {
+				end = false;
+			}
+			
+		}while(!end);
 		
 	}
 
