@@ -7,6 +7,7 @@ public class Ejercicio1 {
 	/*
 	 * 1.- Pedir al usuario dos números enteros y un símbolo de operación.
 	 * 2.- Realizar la operación.
+	 * 3.- Devolver el resultado.
 	 */
 
 	public static void main(String[] args) {
@@ -30,21 +31,26 @@ public class Ejercicio1 {
 			if(operation == '+') {
 				result = num1 + num2;
 				System.out.printf("%d %c %d = %d", num1, operation, num2, result);
+				
 			}else if(operation == '-') {
 				result = num1 - num2;
 				System.out.printf("%d %c %d = %d", num1, operation, num2, result);
+				
 			}else if(operation == '*') {
 				result = num1 * num2;
 				System.out.printf("%d %c %d = %d", num1, operation, num2, result);
+				
 			}else if(operation == '/') {
 				result = num1 / num2;
 				System.out.printf("%d %c %d = %d", num1, operation, num2, result);
+				
 			}else {
 				System.out.println("Error al indicar el símbolo de operación.");
 			}
 			
 		}catch(InputMismatchException e) {
 			System.out.println("Error al indicar uno de los números.");
+			
 		}catch(ArithmeticException e) {
 			System.out.println("Error en la división (no se puede dividir un número entre cero.)");
 		}
