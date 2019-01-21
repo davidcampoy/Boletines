@@ -2,6 +2,8 @@ package proyecto2;
 import java.util.Scanner;
 
 import proyectos.Teclado;
+import proyectos.Teclado.Compare;
+import proyectos.Teclado.Range;
 
 public class SopaDeLetras {
 	
@@ -45,12 +47,18 @@ public class SopaDeLetras {
 	 * 1.- Pedir al usuario el tamaño de la sopa de letras, éste debe ser cuadrado (debe tener el mismo número de filas y de columnas).
 	 * 2.- Una vez creada la sopa de letras, el usuario deberá de añadir palabras dentro de la sopa, indicando la posición en la sopa y la orientación de la palabra.
 	 * 3.- Cuando se añadan las palabras, terminar de rellenar la sopa con letras aleatorias (no incluir letras con acento).
-	 * 
 	 */
 	public static String[][] crearSopaLetras() {
 		
 		String sopa[][];
+		int size;
+
+		System.out.println("Indica el tamaño de la sopa de letra (mínimo 10): ");
+		size = Teclado.compNum(10, Compare.Mayor_o_igual);
 		
+		sopa = new String[size][size];
+		
+		sopa = peticionPalabra(sopa, size);
 		
 		return sopa;
 		
@@ -67,9 +75,34 @@ public class SopaDeLetras {
 	 * 	2.6.- En caso de no cumplir alguna de las restricciones, se deberá de avisar al usuario y tendrá que volver a introducir la palabra.
 	 * 3.- Devolver la sopa con las letras incorporadas.
 	 */
-	public static String[][] peticionPalabra(String sopa[][]) {
+	public static String[][] peticionPalabra(String sopa[][], int size) {
 		
+		int wNum;
+		String word;
 		
+		System.out.println("¿De cuántas palabras dispondrá la sopa de letras? (Mín 4, máx 10): ");
+		wNum = Teclado.rangNum(4, 10, Range.BothIncluded);
+		
+		for(int i = 1; i <= wNum; i++) {
+			
+			System.out.println("Indica una palabra: ");
+			word = Teclado.readString();
+			
+			if(word.length() <= size) {
+				
+				if(word.matches("[A-Z]{1}[a-z]+([A-Z]{1}[a-z]*)*") == true) {
+					
+					System.out.println("Bien");
+					
+				}else {
+					
+					System.out.println("No bien");
+					
+				}
+				
+			}
+			
+		}
 		
 		return sopa;
 		

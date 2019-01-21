@@ -49,8 +49,6 @@ public class Teclado {
 		
 		String chain;
 		
-		scan.nextLine();
-		System.out.println("Escribe una cadena: ");
 		chain = scan.nextLine();
 		
 		return chain;
