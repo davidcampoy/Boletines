@@ -13,7 +13,7 @@ public class SopaDeLetras {
 		
 		int option;
 		boolean exit = false;
-		String SopaLetras[][];
+		char SopaLetras[][];
 		
 		do {
 			
@@ -48,15 +48,15 @@ public class SopaDeLetras {
 	 * 2.- Una vez creada la sopa de letras, el usuario deberá de añadir palabras dentro de la sopa, indicando la posición en la sopa y la orientación de la palabra.
 	 * 3.- Cuando se añadan las palabras, terminar de rellenar la sopa con letras aleatorias (no incluir letras con acento).
 	 */
-	public static String[][] crearSopaLetras() {
+	public static char[][] crearSopaLetras() {
 		
-		String sopa[][];
+		char sopa[][];
 		int size;
 
 		System.out.println("Indica el tamaño de la sopa de letra (mínimo 10): ");
 		size = Teclado.compNum(10, Compare.Mayor_o_igual);
 		
-		sopa = new String[size][size];
+		sopa = new char[size][size];
 		
 		sopa = peticionPalabra(sopa, size);
 		
@@ -72,36 +72,108 @@ public class SopaDeLetras {
 	 * 	2.3.- En caso de ser compuesta, no deberán incluirse espacios, en su lugar, cada palabra deberá empezar por mayúscula sin espacio alguno.
 	 * 	2.4.- La posición se indicará mediante fila y columna. Deberá respetarse el tamaño de la sopa, en caso contrario, se volverá a pedir la posición.
 	 * 	2.5.- Las opciones de orientación posibles serán de derecha a izquierda y viceversa, de arriba hacia abajo y viceversa, y en diagonal en todos los sentidos posibles(arriba-izquierda, arriba-derecha, abajo-izquierda, abajo-derecha).
-	 * 	2.6.- En caso de no cumplir alguna de las restricciones, se deberá de avisar al usuario y tendrá que volver a introducir la palabra.
+	 * 	2.7.- Se comprobará además que, en la posición en la que se indique la palabra, coincida con otra palabra, las letras que coincidan deben ser la misma (diferenciando mayúsculas de minúsculas). Si no coincide, no se introducirá la palabra.
+	 * 	2.8.- En caso de no cumplir alguna de las restricciones, se deberá de avisar al usuario y tendrá que volver a introducir la palabra.
 	 * 3.- Devolver la sopa con las letras incorporadas.
 	 */
-	public static String[][] peticionPalabra(String sopa[][], int size) {
+	public static char[][] peticionPalabra(char sopa[][], int size) {
 		
 		int wNum;
+		int row, column, orient, i, j, k;
 		String word;
+		boolean exit = true;
 		
 		System.out.println("¿De cuántas palabras dispondrá la sopa de letras? (Mín 4, máx 10): ");
 		wNum = Teclado.rangNum(4, 10, Range.BothIncluded);
 		
-		for(int i = 1; i <= wNum; i++) {
+		for(i = 1; i <= wNum; i++) {
 			
-			System.out.println("Indica una palabra: ");
-			word = Teclado.readString();
-			
-			if(word.length() <= size) {
+			do {
+				exit = true;
 				
-				if(word.matches("[A-Z]{1}[a-z]+([A-Z]{1}[a-z]*)*") == true) {
+				System.out.println("Indica una palabra: ");							// Pedir la palabra
+				word = Teclado.readString();
+				
+				System.out.println("Indica la fila: ");								// Pedir la fila
+				row = Teclado.compNum(size, Compare.Menor_o_igual);
+				
+				System.out.println("Indica la columna: ");
+				column = Teclado.compNum(size,  Compare.Menor_o_igual);				// Pedir la columna
+				
+				System.out.println("\n 1.- De izquierda a derecha\n 2.- De derecha a izquierda\n 3.- De arriba hacia abajo\n 4.- De abajo hacia arriba\n 5.- Diagonal arriba-izquierda\n 6.- Diagonal arriba-derecha\n 7.- Diagonal abajo-izquierda\n 8.- Diagonal abajo-derecha");
+				System.out.println("Indica la orientación de la palabra: ");		// Pedir la orientación de la palabra
+				orient = Teclado.rangNum(1, 8, Range.BothIncluded);
+				
+				if(word.length() <= size) {
 					
-					System.out.println("Bien");
+					if(word.matches("[A-Z]{1}[a-z]+([A-Z]{1}[a-z]*)*") == true) {
+						
+						if(orient == 1) {				// De izquierda a derecha
+							if(column + word.length() <= size) {
+								
+								for(j = column, k = 0; k < word.length(); j++, k++) {
+									
+									sopa[row][j] = word.charAt(k);
+									
+								}
+								
+							}else {
+								System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
+								exit = false;
+							}
+							
+						}else if(orient == 2) {			// De derecha a izquierda
+							if(column - word.length() >= 0) {
+								
+								for(j = column, k = 0; k < word.length(); j--, k++) {
+									
+									sopa[row][j] = word.charAt(k);
+									
+								}
+								
+							}else {
+								System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
+								exit = false;
+							}
+							
+						}else if(orient == 3) {			// De arriba hacia abajo
+							if(row + word.length() >= size) {
+								
+								for(j = row, k = 0; k < word.length(); j++, k++) {
+									
+									sopa[j][column] = word.charAt(k);
+									
+								}
+								
+							}else {
+								System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
+								exit = false;
+							}
+							
+						}else if(orient == 4) {			// De abajo hacia arriba
+							if()
+							
+						}else if(orient == 5) {			// Diagonal arriba-izquierda
+							
+						}else if(orient == 6) {			// Diagonal arriba-derecha
+							
+						}else if(orient == 7) {			// Diagonal abajo-izquierda
+							
+						}else if(orient == 8) {			// Diagonal abajo-derecha
+							
+						}
+						
+					}else {
+						exit = false;
+						System.out.println("La palabra no tiene una sintaxis válida.");
+					}
 					
 				}else {
-					
-					System.out.println("No bien");
-					
+					exit = false;
+					System.out.println("La longitud de la palabra no puede ser mayor al tamaño de la sopa de letras.");
 				}
 				
-			}
-			
+			}while(!exit);
 		}
 		
 		return sopa;
@@ -113,7 +185,7 @@ public class SopaDeLetras {
 	 * 	1.1.- Las letras pueden ser mayúsculas y minúsculas (se incluye la ñ, pero no los acentos)
 	 * 2.- Devolver la sopa de letras completa.
 	 */
-	public static String[][] rellenar(String sopa[][]){
+	public static char[][] rellenar(char sopa[][]){
 		
 		
 		
@@ -124,7 +196,7 @@ public class SopaDeLetras {
 	/*
 	 * 1.- Mostrar la última sopa de letras creada, enumerando las filas y columnas.
 	 */
-	public static void mostrarSopaLetras(String sopa[][]) {
+	public static void mostrarSopaLetras(char sopa[][]) {
 		
 		
 		
