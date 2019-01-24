@@ -79,7 +79,7 @@ public class SopaDeLetras {
 	public static char[][] peticionPalabra(char sopa[][], int size) {
 		
 		int wNum;
-		int row, column, orient, i, j, k;
+		int row, column, orient, i, j, m, k;
 		String word;
 		boolean exit = true;
 		
@@ -113,7 +113,7 @@ public class SopaDeLetras {
 								
 								for(j = column, k = 0; k < word.length(); j++, k++) {
 									
-									sopa[row][j] = word.charAt(k);
+									sopa[row-1][j-1] = word.charAt(k);
 									
 								}
 								
@@ -127,7 +127,7 @@ public class SopaDeLetras {
 								
 								for(j = column, k = 0; k < word.length(); j--, k++) {
 									
-									sopa[row][j] = word.charAt(k);
+									sopa[row-1][j-1] = word.charAt(k);
 									
 								}
 								
@@ -137,11 +137,11 @@ public class SopaDeLetras {
 							}
 							
 						}else if(orient == 3) {			// De arriba hacia abajo
-							if(row + word.length() >= size) {
+							if(row + word.length() <= size) {
 								
 								for(j = row, k = 0; k < word.length(); j++, k++) {
 									
-									sopa[j][column] = word.charAt(k);
+									sopa[j-1][column-1] = word.charAt(k);
 									
 								}
 								
@@ -151,15 +151,59 @@ public class SopaDeLetras {
 							}
 							
 						}else if(orient == 4) {			// De abajo hacia arriba
-							if()
+							if(row - word.length() >= 0) {
+								
+								for(j = row, k = 0; k < word.length(); j--, k++) {
+									
+									sopa[j-1][column-1] = word.charAt(k);
+									
+								}
+								
+							}
 							
 						}else if(orient == 5) {			// Diagonal arriba-izquierda
+							if(row - word.length() >= 0 && column - word.length() >= 0) {
+								
+								for(j = row, m = column, k = 0; k < word.length(); j--, m--, k++) {
+									
+									sopa[j-1][m-1] = word.charAt(k);
+									
+								}
+								
+							}
 							
 						}else if(orient == 6) {			// Diagonal arriba-derecha
+							if(row - word.length() >= 0 && column + word.length() <= size) {
+								
+								for(j = row, m = column, k = 0; k < word.length(); j--, m++, k++) {
+									
+									sopa[j-1][m-1] = word.charAt(k);
+									
+								}
+								
+							}
 							
 						}else if(orient == 7) {			// Diagonal abajo-izquierda
+							if(row + word.length() <= size && column - word.length() >= 0) {
+								
+								for(j = row, m  = column, k = 0; k < word.length(); j++, m--, k++) {
+									
+									sopa[j-1][m-1] = word.charAt(k);
+									
+								}
+								
+							}
 							
 						}else if(orient == 8) {			// Diagonal abajo-derecha
+							if(row + word.length() <= size && column + word.length() <= size) {
+								
+								for(j = row, m = column, k = 0; k < word.length(); j++, m++, k++) {
+									
+									sopa[j-1][m-1] = word.charAt(k);
+									
+								}
+								
+							}
 							
 						}
 						
@@ -174,6 +218,28 @@ public class SopaDeLetras {
 				}
 				
 			}while(!exit);
+			
+			System.out.println();
+			
+			for(j = 0; j < size; j++) {							// Mostrar la sopa de letras con la palabra actual añadida
+				System.out.print((j + 1) + "\t");
+				for(k = 0; k < size; k++) {
+					
+					System.out.print(" " + sopa[j][k] + " |");
+					
+				}
+				System.out.println();
+			}
+			System.out.print("\t");
+			for(j= 0; j < size; j++) {							// Números indicativos de las filas y columnas de la sopa
+				if(j < 9) {
+					System.out.print(" " + (j + 1) + " |");
+				}else {
+					System.out.print(" " + (j + 1) + "|");
+				}
+			}
+			
+			System.out.println();
 		}
 		
 		return sopa;
