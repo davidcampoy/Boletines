@@ -8,12 +8,13 @@ import proyectos.Teclado.Range;
 public class SopaDeLetras {
 	
 	static Random rand = new Random();
+	public static String palabras[];
 
 	public static void main(String[] args) {
 		
 		int option;
-		boolean exit = false;
-		char SopaLetras[][];
+		boolean exit = false, create = false;
+		char sopaLetras[][] = null;
 		
 		do {
 			
@@ -22,15 +23,23 @@ public class SopaDeLetras {
 			
 			if(option == 1) {				// Crear
 				
-				SopaLetras = crearSopaLetras();
+				sopaLetras = crearSopaLetras();
+				create = true;
 				
 			}else if(option == 2) {			// Mostrar
-				
-				
+				if(create == false) {
+					System.out.println("No hay ninguna sopa de letras creada. Use la opción \"Crear sopa de letras\" para crear una.\n");
+				}else {
+					mostrarSopaLetras(sopaLetras);
+				}
 				
 			}else if(option == 3) {			// Jugar
 				
-				
+				if(create == false) {
+					System.out.println("No hay ninguna sopa de letras creada. Use la opción \"Crear sopa de letras\" para crear una.\n");
+				}else {
+					jugar(sopaLetras);
+				}				
 				
 			}else if(option == 4){			// Salir
 				
@@ -91,7 +100,9 @@ public class SopaDeLetras {
 		System.out.println("¿De cuántas palabras dispondrá la sopa de letras? (Mín 4, máx 10): ");
 		wNum = Teclado.rangNum(4, 10, Range.BothIncluded);
 		
-		for(i = 1; i <= wNum; i++) {
+		palabras = new String[wNum];
+		
+		for(i = 0; i < wNum; i++) {
 			
 			do {
 				exit = true;
@@ -100,11 +111,13 @@ public class SopaDeLetras {
 				System.out.println("Indica una palabra: ");							// Pedir la palabra
 				word = Teclado.readString();
 				
+				palabras[i] = word;
+				
 				System.out.println("Indica la fila: ");								// Pedir la fila
-				row = Teclado.compNum(size, Compare.Menor_o_igual);
+				row = Teclado.rangNum(1, size, Teclado.Range.BothIncluded) - 1;
 				
 				System.out.println("Indica la columna: ");
-				column = Teclado.compNum(size,  Compare.Menor_o_igual);				// Pedir la columna
+				column = Teclado.rangNum(1, size, Teclado.Range.BothIncluded) - 1;				// Pedir la columna
 				
 				System.out.println("\n 1.- De izquierda a derecha\n 2.- De derecha a izquierda\n 3.- De arriba hacia abajo\n 4.- De abajo hacia arriba\n 5.- Diagonal arriba-izquierda\n 6.- Diagonal arriba-derecha\n 7.- Diagonal abajo-izquierda\n 8.- Diagonal abajo-derecha");
 				System.out.println("Indica la orientación de la palabra: ");		// Pedir la orientación de la palabra
@@ -118,14 +131,14 @@ public class SopaDeLetras {
 							if(column + word.length() <= size) {
 								
 								for(j = column, k = 0; k < word.length(); j++, k++) {		// Bucle para comprobar si hay palabras que se cruzan
-									if(sopa[row-1][j-1] == ' ' || sopa[row-1][j-1] == word.charAt(k)) {
+									if(sopa[row][j] == ' ' || sopa[row][j] == word.charAt(k)) {
 										aid++;
 									}
 								}
 								
 								if(aid == word.length()) {
 									for(j = column, k = 0; k < word.length(); j++, k++) {	// Bucle para añadir la palabra
-										sopa[row-1][j-1] = word.charAt(k);
+										sopa[row][j] = word.charAt(k);
 									}
 									
 								}else {
@@ -139,10 +152,10 @@ public class SopaDeLetras {
 							}
 							
 						}else if(orient == 2) {			// De derecha a izquierda
-							if(column - word.length() >= 0) {
+							if(column - word.length() >= -1) {
 								
 								for(j = column, k = 0; k < word.length(); j--, k++) {
-									if(sopa[row-1][j-1] == ' ' || sopa[row-1][j-1] == word.charAt(k)) {
+									if(sopa[row][j] == ' ' || sopa[row][j] == word.charAt(k)) {
 										aid++;
 									}
 								}
@@ -150,7 +163,7 @@ public class SopaDeLetras {
 								if(aid == word.length()) {
 									
 									for(j = column, k = 0; k < word.length(); j--, k++) {
-										sopa[row-1][j-1] = word.charAt(k);
+										sopa[row][j] = word.charAt(k);
 									}
 									
 								}else {
@@ -167,7 +180,7 @@ public class SopaDeLetras {
 							if(row + word.length() <= size) {
 								
 								for(j = row, k = 0; k < word.length(); j++, k++) {
-									if(sopa[j-1][column-1] == ' ' || sopa[j-1][column-1] == word.charAt(k)) {
+									if(sopa[j][column] == ' ' || sopa[j][column] == word.charAt(k)) {
 										aid++;
 									}
 								}
@@ -175,7 +188,7 @@ public class SopaDeLetras {
 								if(aid == word.length()) {
 									
 									for(j = row, k = 0; k < word.length(); j++, k++) {
-										sopa[j-1][column-1] = word.charAt(k);
+										sopa[j][column] = word.charAt(k);
 									}
 									
 								}else {
@@ -189,10 +202,10 @@ public class SopaDeLetras {
 							}
 							
 						}else if(orient == 4) {			// De abajo hacia arriba
-							if(row - word.length() >= 0) {
+							if(row - word.length() >= -1) {
 								
 								for(j = row, k = 0; k < word.length(); j--, k++) {
-									if(sopa[j-1][column-1] == ' ' || sopa[j-1][column-1] == word.charAt(k)) {
+									if(sopa[j][column] == ' ' || sopa[j][column] == word.charAt(k)) {
 										aid++;
 									}
 								}
@@ -200,7 +213,7 @@ public class SopaDeLetras {
 								if(aid == word.length()) {
 									
 									for(j = row, k = 0; k < word.length(); j--, k++) {
-										sopa[j-1][column-1] = word.charAt(k);
+										sopa[j][column] = word.charAt(k);
 									}
 									
 								}else {
@@ -214,10 +227,10 @@ public class SopaDeLetras {
 							}
 							
 						}else if(orient == 5) {			// Diagonal arriba-izquierda
-							if(row - word.length() >= 0 && column - word.length() >= 0) {
+							if(row - word.length() >= -1 && column - word.length() >= -1) {
 								
 								for(j = row, m = column, k = 0; k < word.length(); j--, m--, k++) {
-									if(sopa[j-1][m-1] == ' ' || sopa[j-1][m-1] == word.charAt(k)) {
+									if(sopa[j][m] == ' ' || sopa[j][m] == word.charAt(k)) {
 										aid++;
 									}
 								}
@@ -225,7 +238,7 @@ public class SopaDeLetras {
 								if(aid == word.length()) {
 									
 									for(j = row, m = column, k = 0; k < word.length(); j--, m--, k++) {
-										sopa[j-1][m-1] = word.charAt(k);
+										sopa[j][m] = word.charAt(k);
 									}
 									
 								}else {
@@ -239,10 +252,10 @@ public class SopaDeLetras {
 							}
 							
 						}else if(orient == 6) {			// Diagonal arriba-derecha
-							if(row - word.length() >= 0 && column + word.length() <= size) {
+							if(row - word.length() >= -1 && column + word.length() <= size) {
 								
 								for(j = row, m = column, k = 0; k < word.length(); j--, m++, k++) {
-									if(sopa[j-1][m-1] == ' ' || sopa[j-1][m-1] == word.charAt(k)) {
+									if(sopa[j][m] == ' ' || sopa[j][m] == word.charAt(k)) {
 										aid++;
 									}
 								}
@@ -250,7 +263,7 @@ public class SopaDeLetras {
 								if(aid == word.length()) {
 									
 									for(j = row, m = column, k = 0; k < word.length(); j--, m++, k++) {
-										sopa[j-1][m-1] = word.charAt(k);
+										sopa[j][m] = word.charAt(k);
 									}
 									
 								}else {
@@ -264,10 +277,10 @@ public class SopaDeLetras {
 							}
 							
 						}else if(orient == 7) {			// Diagonal abajo-izquierda
-							if(row + word.length() <= size && column - word.length() >= 0) {
+							if(row + word.length() <= size && column - word.length() >= -1) {
 								
 								for(j = row, m  = column, k = 0; k < word.length(); j++, m--, k++) {
-									if(sopa[j-1][m-1] == ' ' || sopa[j-1][m-1] == word.charAt(k)) {
+									if(sopa[j][m] == ' ' || sopa[j][m] == word.charAt(k)) {
 										aid++;
 									}
 								}
@@ -275,7 +288,7 @@ public class SopaDeLetras {
 								if(aid == word.length()) {
 									
 									for(j = row, m  = column, k = 0; k < word.length(); j++, m--, k++) {
-										sopa[j-1][m-1] = word.charAt(k);
+										sopa[j][m] = word.charAt(k);
 									}
 									
 								}else {
@@ -292,7 +305,7 @@ public class SopaDeLetras {
 							if(row + word.length() <= size && column + word.length() <= size) {
 								
 								for(j = row, m = column, k = 0; k < word.length(); j++, m++, k++) {
-									if(sopa[j-1][m-1] == ' ' || sopa[j-1][m-1] == word.charAt(k)) {
+									if(sopa[j][m] == ' ' || sopa[j][m] == word.charAt(k)) {
 										aid++;
 									}
 								}
@@ -300,7 +313,7 @@ public class SopaDeLetras {
 								if(aid == word.length()) {
 									
 									for(j = row, m = column, k = 0; k < word.length(); j++, m++, k++) {
-										sopa[j-1][m-1] = word.charAt(k);
+										sopa[j][m] = word.charAt(k);
 									}
 									
 								}else {
@@ -350,7 +363,31 @@ public class SopaDeLetras {
 			System.out.println();
 		}
 		
-		sopa = rellenar(sopa);
+		System.out.println("Añadiendo letras aleatorias...");
+		
+		//sopa = rellenar(sopa, size);					// Forma iterativa
+		
+		sopa = rellenarR(sopa, size, 0, 0);				// Forma recursiva
+		
+		for(j = 0; j < size; j++) {							// Mostrar la sopa de letras completa
+			System.out.print((j + 1) + "\t");
+			for(k = 0; k < size; k++) {
+				
+				System.out.print(" " + sopa[j][k] + " |");
+				
+			}
+			System.out.println();
+		}
+		System.out.print("\t");
+		for(j= 0; j < size; j++) {							// Números indicativos de las filas y columnas de la sopa
+			if(j < 9) {
+				System.out.print(" " + (j + 1) + "  ");
+			}else {
+				System.out.print(" " + (j + 1) + " ");
+			}
+		}
+		
+		System.out.println();
 		
 		return sopa;
 		
@@ -361,16 +398,17 @@ public class SopaDeLetras {
 	 * 	1.1.- Las letras pueden ser mayúsculas y minúsculas (se incluye la ñ, pero no los acentos)
 	 * 2.- Devolver la sopa de letras completa.
 	 */
-	public static char[][] rellenar(char sopa[][]){
+	public static char[][] rellenar(char sopa[][], int size){			// Versión iterativa
 		
-		int i, j;
+		int i, j, aid;
+		String words = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
 		
 		for(i = 0; i < sopa.length; i++) {
 			for(j = 0; j < sopa.length; j++) {
 				
 				if(sopa[i][j] == ' ') {
-					
-					//sopa[i][j] = rand.next
+					aid = rand.nextInt(53 - 0 + 1) + 0;
+					sopa[i][j] = words.charAt(aid);
 				}
 				
 			}
@@ -380,12 +418,68 @@ public class SopaDeLetras {
 		
 	}
 	
+	public static char[][] rellenarR(char sopa[][], int size, int row, int column){
+		
+		int aid;
+		String words = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+		
+		if(sopa[row][column] == ' ') {
+			
+			aid = rand.nextInt(53 - 0 + 1) + 0;
+			sopa[row][column] = words.charAt(aid);
+			
+		}
+		
+		if(row == size - 1) {
+			
+			if(column == size - 1) {
+				
+				return sopa;
+				
+			}else {
+				
+				return rellenarR(sopa, size, row, column + 1);
+				
+			}
+			
+		}else if(column == size - 1) {
+			
+			return rellenarR(sopa, size, row + 1, 0);
+			
+		}else {
+			
+			return rellenarR(sopa, size, row, column + 1);
+			
+		}
+		
+	}
+	
 	/*
 	 * 1.- Mostrar la última sopa de letras creada, enumerando las filas y columnas.
 	 */
 	public static void mostrarSopaLetras(char sopa[][]) {
 		
+		int j, k;
 		
+		for(j = 0; j < sopa.length; j++) {							// Mostrar la sopa de letras con la palabra actual añadida
+			System.out.print((j + 1) + "\t");
+			for(k = 0; k < sopa.length; k++) {
+				
+				System.out.print(" " + sopa[j][k] + " |");
+				
+			}
+			System.out.println();
+		}
+		System.out.print("\t");
+		for(j= 0; j < sopa.length; j++) {							// Números indicativos de las filas y columnas de la sopa
+			if(j < 9) {
+				System.out.print(" " + (j + 1) + "  ");
+			}else {
+				System.out.print(" " + (j + 1) + " ");
+			}
+		}
+		
+		System.out.println();
 		
 	}
 	
@@ -394,14 +488,77 @@ public class SopaDeLetras {
 	 * 2.- Cuando el usuario encuentre una palabra en la sopa, éste deberá de introducir la posición de inicio y la orientación de la palabra.
 	 * 	2.1.- Si la palabra es correcta, se mostrará la palabra encontrada de color rojo y el usuario obtendrá 50 pts.
 	 * 	2.2.- En caso contrario, se le restarán 25pts.
-	 * 	2.2.- El número de puntos no puede ser un número negativo.
-	 * 	2.2.- Cada vez que haga el intento de mostrar una palabra, tanto si es correcta como si no, se añadirá uno al número de intentos.
+	 * 	2.3.- Al completar la sopa, en caso de que la puntuación sea un número negativo, éste pasará a cero.
+	 * 	2.4.- Cada vez que haga el intento de mostrar una palabra, tanto si es correcta como si no, se añadirá uno al número de intentos.
 	 * 3.- Cuando encuentre todas las palabras, se le mostrará al usuario la puntuación y el número de intentos.
 	 */
-	public static void jugar(String sopa[][]) {
+	public static void jugar(char sopa[][]) {
 		
+		boolean end = false;
+		int pts = 0, tries = 0, i, j, k, row, column, orient;
+		String sopaLetras[][] = new String[sopa.length][sopa.length];
 		
+		for(i = 0; i < sopa.length; i++) {			// Pasar la sopa de letras de tipo char a un array de tipo String para poder colorear las letras.
+			for(j = 0; j < sopa.length; j++) {
+				
+				sopaLetras[i][j] = String.valueOf(sopa[i][j]);
+				
+			}
+		}
+		
+		do {
+		
+			for(i = 0; i < sopaLetras.length; i++) {							// Mostrar la sopa de letras completa
+				System.out.print((i + 1) + "\t");
+				for(j = 0; j < sopaLetras.length; j++) {
+					
+					System.out.print(" " + sopaLetras[i][j] + " |");
+					
+				}
+				System.out.println();
+			}
+			System.out.print("\t");
+			for(i = 0; i < sopaLetras.length; i++) {							// Números indicativos de las filas y columnas de la sopa
+				if(i < 9) {
+					System.out.print(" " + (i + 1) + "  ");
+				}else {
+					System.out.print(" " + (i + 1) + " ");
+				}
+			}
+			
+			System.out.println();
+			
+			System.out.println("Indica la fila de la palabra que has encontrado: ");
+			row = Teclado.rangNum(1, sopaLetras.length, Teclado.Range.BothIncluded);
+			
+			System.out.println("Indica la columna de la palabra que has encontrado: ");
+			column = Teclado.rangNum(1, sopaLetras.length, Teclado.Range.BothIncluded);
+			
+			System.out.println("\n 1.- De izquierda a derecha\n 2.- De derecha a izquierda\n 3.- De arriba hacia abajo\n 4.- De abajo hacia arriba\n 5.- Diagonal arriba-izquierda\n 6.- Diagonal arriba-derecha\n 7.- Diagonal abajo-izquierda\n 8.- Diagonal abajo-derecha");
+			System.out.println("Indica la orientación de la palabra: ");		// Pedir la orientación de la palabra
+			orient = Teclado.rangNum(1, 8, Range.BothIncluded);
+			
+			if(orient == 1) {
+				//for()
+				
+			}else if(orient == 2) {
+				
+			}else if(orient == 3) {
+				
+			}else if(orient == 4) {
+				
+			}else if(orient == 5) {
+				
+			}else if(orient == 6) {
+				
+			}else if(orient == 7) {
+				
+			}else if(orient == 8) {
+				
+			}
+		
+		}while(!end);
 		
 	}
-
+	
 }
