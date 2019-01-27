@@ -7,6 +7,9 @@ import proyectos.Teclado.Range;
 
 public class SopaDeLetras {
 	
+	public static final String ROJO = "\u001B[31m";
+	public static final String RESET = "\u001B[0m";
+	
 	static Random rand = new Random();
 	public static String palabras[];
 
@@ -85,7 +88,7 @@ public class SopaDeLetras {
 	 * 	2.8.- En caso de no cumplir alguna de las restricciones, se deberá de avisar al usuario y tendrá que volver a introducir la palabra.
 	 * 3.- Devolver la sopa con las letras incorporadas.
 	 */
-	public static char[][] peticionPalabra(char sopa[][], int size) {
+	public static char[][] peticionPalabra(char sopa[][], int size) {			/* sopa = Sopa de letras | Referencia | Salida */		/* size = Tamaño de la matríz de la sopa | Valor | Entrada */
 		
 		int wNum, row, column, orient, aid = 0, i, j, m, k;
 		String word;
@@ -398,7 +401,7 @@ public class SopaDeLetras {
 	 * 	1.1.- Las letras pueden ser mayúsculas y minúsculas (se incluye la ñ, pero no los acentos)
 	 * 2.- Devolver la sopa de letras completa.
 	 */
-	public static char[][] rellenar(char sopa[][], int size){			// Versión iterativa
+	public static char[][] rellenar(char sopa[][], int size){ /*Versión iterativa*/			/* sopa = Sopa de letras | Referencia | Salida */		/* size = Tamaño de la matríz de la sopa | Valor | Entrada */
 		
 		int i, j, aid;
 		String words = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
@@ -418,7 +421,7 @@ public class SopaDeLetras {
 		
 	}
 	
-	public static char[][] rellenarR(char sopa[][], int size, int row, int column){
+	public static char[][] rellenarR(char sopa[][], int size, int row, int column){ /*Versión recursiva*/		/* sopa = Sopa de letras | Referencia | Salida */		/* size = Tamaño de la matríz de la sopa | Valor | Entrada */		/* Row = Fila de la sopa de letras, éste irá aumentando conforme se vaya llamando la función a sí misma | Valor | Entrada */		/* Column = Columna de la sopa de letras (tiene la misma función que la fila) | Valor | Entrada */
 		
 		int aid;
 		String words = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
@@ -457,7 +460,7 @@ public class SopaDeLetras {
 	/*
 	 * 1.- Mostrar la última sopa de letras creada, enumerando las filas y columnas.
 	 */
-	public static void mostrarSopaLetras(char sopa[][]) {
+	public static void mostrarSopaLetras(char sopa[][]) {		/* Sopa = Sopa de letras | Referencia | Salida */
 		
 		int j, k;
 		
@@ -492,11 +495,11 @@ public class SopaDeLetras {
 	 * 	2.4.- Cada vez que haga el intento de mostrar una palabra, tanto si es correcta como si no, se añadirá uno al número de intentos.
 	 * 3.- Cuando encuentre todas las palabras, se le mostrará al usuario la puntuación y el número de intentos.
 	 */
-	public static void jugar(char sopa[][]) {
+	public static void jugar(char sopa[][]) {		/* sopa = Sopa de letras | Referencia | Salida */
 		
-		boolean end = false;
-		int pts = 0, tries = 0, i, j, k, row, column, orient;
-		String sopaLetras[][] = new String[sopa.length][sopa.length];
+		boolean correct = false;
+		int pts = 0, tries = 0, i, j, k = 0, m = 0, row, column, orient, count = 0, successWords = 0;
+		String sopaLetras[][] = new String[sopa.length][sopa.length], words[] = new String[palabras.length];
 		
 		for(i = 0; i < sopa.length; i++) {			// Pasar la sopa de letras de tipo char a un array de tipo String para poder colorear las letras.
 			for(j = 0; j < sopa.length; j++) {
@@ -504,6 +507,10 @@ public class SopaDeLetras {
 				sopaLetras[i][j] = String.valueOf(sopa[i][j]);
 				
 			}
+		}
+		
+		for(i = 0; i < palabras.length; i++) {		// Pasar las palabras introducidas en el array "palabras" a un array aparte para ir eliminando las palabra conforme el usuario las vaya acertando.
+			words[i] = palabras[i];
 		}
 		
 		do {
@@ -529,36 +536,450 @@ public class SopaDeLetras {
 			System.out.println();
 			
 			System.out.println("Indica la fila de la palabra que has encontrado: ");
-			row = Teclado.rangNum(1, sopaLetras.length, Teclado.Range.BothIncluded);
+			row = Teclado.rangNum(1, sopaLetras.length, Teclado.Range.BothIncluded) - 1;
 			
 			System.out.println("Indica la columna de la palabra que has encontrado: ");
-			column = Teclado.rangNum(1, sopaLetras.length, Teclado.Range.BothIncluded);
+			column = Teclado.rangNum(1, sopaLetras.length, Teclado.Range.BothIncluded) - 1;
 			
 			System.out.println("\n 1.- De izquierda a derecha\n 2.- De derecha a izquierda\n 3.- De arriba hacia abajo\n 4.- De abajo hacia arriba\n 5.- Diagonal arriba-izquierda\n 6.- Diagonal arriba-derecha\n 7.- Diagonal abajo-izquierda\n 8.- Diagonal abajo-derecha");
 			System.out.println("Indica la orientación de la palabra: ");		// Pedir la orientación de la palabra
 			orient = Teclado.rangNum(1, 8, Range.BothIncluded);
 			
-			if(orient == 1) {
-				//for()
+			if(orient == 1) {			// De izquierda a derecha
 				
-			}else if(orient == 2) {
+				m = 0;	// Resetear el índice del array donde se almacenan las palabras.
+				correct = false;
 				
-			}else if(orient == 3) {
+				do {
+					count = 0;
+					
+					if(column + words[m].length() <= sopaLetras.length) { 
+					
+						for(i = column, k = 0; k < words[m].length(); i++, k++) {
+							
+							if(sopa[row][i] == words[m].charAt(k)) {
+								count++;		// Si la letra de la posición i de la sopa coincide con la posición k de la palabra m, se incrementa en uno esta variable
+								
+							}
+							
+						}
+						
+						if(count == words[m].length()) {
+							
+							correct = true;
+							
+							for(i = column, k = 0; k < words[m].length(); i++, k++) {
+								sopaLetras[row][i] = ROJO + sopaLetras[row][i] + RESET;
+							}
+							
+						}else {
+							m++;
+						}
+						
+					}else {
+						m++;
+					}
 				
-			}else if(orient == 4) {
+				}while(!correct && m < words.length);
 				
-			}else if(orient == 5) {
+				if(correct) {
+					
+					pts += 50;
+					successWords++;
+					System.out.println("Palabra correcta. +50 pts");
+					words[m] = " ";
+					
+				}else {
+					
+					pts -= 25;
+					System.out.println("Palabra incorrecta. -25 pts");
+
+				}
 				
-			}else if(orient == 6) {
+				tries++;
 				
-			}else if(orient == 7) {
+			}else if(orient == 2) {		// De derecha a izquierda	
 				
-			}else if(orient == 8) {
+				m = 0;	// Resetear el índice del array donde se almacenan las palabras.
+				correct = false;
+				
+				do {
+					count = 0;
+					
+					if(column - words[m].length() >= -1) {
+					
+						for(i = column, k = 0; k < words[m].length(); i--, k++) {
+							
+							if(sopa[row][i] == words[m].charAt(k)) {
+								count++;		// Si la letra de la posición i de la sopa coincide con la posición k de la palabra m, se incrementa en uno esta variable
+								
+							}
+							
+						}
+						
+						if(count == words[m].length()) {
+							
+							correct = true;
+							
+							for(i = column, k = 0; k < words[m].length(); i--, k++) {
+								sopaLetras[row][i] = ROJO + sopaLetras[row][i] + RESET;
+							}
+							
+						}else {
+							m++;
+						}
+						
+					}else {
+						m++;
+					}
+					
+				}while(!correct && m < words.length);
+				
+				if(correct) {
+					
+					pts += 50;
+					successWords++;
+					System.out.println("Palabra correcta. +50 pts");
+					words[m] = " ";
+					
+				}else {
+					
+					pts -= 25;
+					System.out.println("Palabra incorrecta. -25 pts");
+
+				}
+				
+				tries++;
+				
+			}else if(orient == 3) {		// De arriba hacia abajo
+				
+				m = 0;	// Resetear el índice del array donde se almacenan las palabras.
+				correct = false;
+				
+				do {
+					count = 0;
+					
+					if(row + words[m].length() <= sopaLetras.length) {
+						
+						for(i = row, k = 0; k < words[m].length(); i++, k++) {
+							
+							if(sopa[i][column] == words[m].charAt(k)) {
+								count++;		// Si la letra de la posición i de la sopa coincide con la posición k de la palabra m, se incrementa en uno esta variable
+								
+							}
+							
+						}
+						
+						if(count == words[m].length()) {
+							
+							correct = true;
+							
+							for(i = row, k = 0; k < words[m].length(); i++, k++) {
+								sopaLetras[i][column] = ROJO + sopaLetras[i][column] + RESET;
+							}
+							
+						}else {
+							m++;
+						}
+						
+					}else {
+						m++;
+					}
+						
+				}while(!correct && m < words.length);
+				
+				if(correct) {
+					
+					pts += 50;
+					successWords++;
+					System.out.println("Palabra correcta. +50 pts");
+					words[m] = " ";
+					
+				}else {
+					
+					pts -= 25;
+					System.out.println("Palabra incorrecta. -25 pts");
+					
+				}
+				
+				tries++;
+				
+			}else if(orient == 4) {		// De abajo hacia arriba
+				
+				m = 0;	// Resetear el índice del array donde se almacenan las palabras.
+				correct = false;
+				
+				do {
+					count = 0;
+					
+					if(row - words[m].length() >= -1) {
+						
+						for(i = row, k = 0; k < words[m].length(); i--, k++) {
+							
+							if(sopa[i][column] == words[m].charAt(k)) {
+								count++;		// Si la letra de la posición i de la sopa coincide con la posición k de la palabra m, se incrementa en uno esta variable
+								
+							}
+							
+						}
+						
+						if(count == words[m].length()) {
+							
+							correct = true;
+							
+							for(i = row, k = 0; k < words[m].length(); i--, k++) {
+								sopaLetras[i][column] = ROJO + sopaLetras[i][column] + RESET;
+							}
+							
+						}else {
+							m++;
+						}
+						
+					}else {
+						m++;
+					}
+						
+				}while(!correct && m < words.length);
+				
+				if(correct) {
+					
+					pts += 50;
+					successWords++;
+					System.out.println("Palabra correcta. +50 pts");
+					words[m] = " ";
+					
+				}else {
+					
+					pts -= 25;
+					System.out.println("Palabra incorrecta. -25 pts");
+					
+				}
+				
+				tries++;
+				
+			}else if(orient == 5) {		// Diagonal arriba-izquierda
+				
+				m = 0;	// Resetear el índice del array donde se almacenan las palabras.
+				correct = false;
+				
+				do {
+					count = 0;
+					
+					if(row - words[m].length() >= -1 && column - words[m].length() >= -1) {
+						
+						for(i = row, j = column, k = 0; k < words[m].length(); i--, j--, k++) {
+							
+							if(sopa[i][j] == words[m].charAt(k)) {
+								count++;		// Si la letra de la posición i de la sopa coincide con la posición k de la palabra m, se incrementa en uno esta variable
+								
+							}
+							
+						}
+						
+						if(count == words[m].length()) {
+							
+							correct = true;
+							
+							for(i = row, j = column, k = 0; k < words[m].length(); i--, j--, k++) {
+								sopaLetras[i][j] = ROJO + sopaLetras[i][j] + RESET;
+							}
+							
+						}else {
+							m++;
+						}
+						
+					}else {
+						m++;
+					}
+						
+				}while(!correct && m < words.length);
+				
+				if(correct) {
+					
+					pts += 50;
+					successWords++;
+					System.out.println("Palabra correcta. +50 pts");
+					words[m] = " ";
+					
+				}else {
+					
+					pts -= 25;
+					System.out.println("Palabra incorrecta. -25 pts");
+					
+				}
+				
+				tries++;
+				
+			}else if(orient == 6) {		// Diagonal arriba-derecha
+				
+				m = 0;	// Resetear el índice del array donde se almacenan las palabras.
+				correct = false;
+				
+				do {
+					count = 0;
+					
+					if(row - words[m].length() >= -1 && column + words[m].length() <= sopaLetras.length) {
+						
+						for(i = row, j = column, k = 0; k < words[m].length(); i--, j++, k++) {
+							
+							if(sopa[i][j] == words[m].charAt(k)) {
+								count++;		// Si la letra de la posición i de la sopa coincide con la posición k de la palabra m, se incrementa en uno esta variable
+								
+							}
+							
+						}
+						
+						if(count == words[m].length()) {
+							
+							correct = true;
+							
+							for(i = row, j = column, k = 0; k < words[m].length(); i--, j++, k++) {
+								sopaLetras[i][j] = ROJO + sopaLetras[i][j] + RESET;
+							}
+							
+						}else {
+							m++;
+						}
+						
+					}else {
+						m++;
+					}
+						
+				}while(!correct && m < words.length);
+				
+				if(correct) {
+					
+					pts += 50;
+					successWords++;
+					System.out.println("Palabra correcta. +50 pts");
+					words[m] = " ";
+					
+				}else {
+					
+					pts -= 25;
+					System.out.println("Palabra incorrecta. -25 pts");
+					
+				}
+				
+				tries++;
+				
+			}else if(orient == 7) {		// Diagonal abajo-izquierda
+				
+				m = 0;	// Resetear el índice del array donde se almacenan las palabras.
+				correct = false;
+				
+				do {
+					count = 0;
+					
+					if(row + words[m].length() <= sopaLetras.length && column - words[m].length() >= -1) {
+						
+						for(i = row, j = column, k = 0; k < words[m].length(); i++, j--, k++) {
+							
+							if(sopa[i][j] == words[m].charAt(k)) {
+								count++;		// Si la letra de la posición i de la sopa coincide con la posición k de la palabra m, se incrementa en uno esta variable
+								
+							}
+							
+						}
+						
+						if(count == words[m].length()) {
+							
+							correct = true;
+							
+							for(i = row, j = column, k = 0; k < words[m].length(); i++, j--, k++) {
+								sopaLetras[i][j] = ROJO + sopaLetras[i][j] + RESET;
+							}
+							
+						}else {
+							m++;
+						}
+						
+					}else {
+						m++;
+					}
+						
+				}while(!correct && m < words.length);
+				
+				if(correct) {
+					
+					pts += 50;
+					successWords++;
+					System.out.println("Palabra correcta. +50 pts");
+					words[m] = " ";
+					
+				}else {
+					
+					pts -= 25;
+					System.out.println("Palabra incorrecta. -25 pts");
+					
+				}
+				
+				tries++;
+				
+			}else if(orient == 8) {		// Diagonal abajo-derecha
+				
+				m = 0;	// Resetear el índice del array donde se almacenan las palabras.
+				correct = false;
+				
+				do {
+					count = 0;
+					
+					if(row + words[m].length() < sopaLetras.length && column + words[m].length() < sopaLetras.length) {
+						
+						for(i = row, j = column, k = 0; k < words[m].length(); i++, j++, k++) {
+							
+							if(sopa[i][j] == words[m].charAt(k)) {
+								count++;		// Si la letra de la posición i de la sopa coincide con la posición k de la palabra m, se incrementa en uno esta variable
+								
+							}
+							
+						}
+						
+						if(count == words[m].length()) {
+							
+							correct = true;
+							
+							for(i = row, j = column, k = 0; k < words[m].length(); i++, j++, k++) {
+								sopaLetras[i][j] = ROJO + sopaLetras[i][j] + RESET;
+							}
+							
+						}else {
+							m++;
+						}
+						
+					}else {
+						m++;
+					}
+						
+				}while(!correct && m < words.length);
+				
+				if(correct) {
+					
+					pts += 50;
+					successWords++;
+					System.out.println("Palabra correcta. +50 pts");
+					words[m] = " ";
+					
+				}else {
+					
+					pts -= 25;
+					System.out.println("Palabra incorrecta. -25 pts");
+					
+				}
+				
+				tries++;
 				
 			}
+			
+			System.out.println();
 		
-		}while(!end);
+		}while(successWords < words.length);
 		
+		if(pts < 0) {		// Si los puntos son negativos, pasan a cero.
+			pts = 0;
+		}
+		
+		System.out.printf("Sopa de letras terminada.\nNúmero de intentos: %d\nPuntuación conseguida: %d\n\n", tries, pts);
 	}
 	
 }
