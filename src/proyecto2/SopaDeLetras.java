@@ -92,7 +92,7 @@ public class SopaDeLetras {
 		
 		int wNum, row, column, orient, aid = 0, i, j, m, k;
 		String word;
-		boolean exit = true;
+		boolean exit = true, same = false;
 		
 		for(i = 0; i < size; i++) {
 			for(j = 0; j < size; j++) {
@@ -108,13 +108,12 @@ public class SopaDeLetras {
 		for(i = 0; i < wNum; i++) {
 			
 			do {
+				same = false;
 				exit = true;
 				aid = 0;
 				
 				System.out.println("Indica una palabra: ");							// Pedir la palabra
 				word = Teclado.readString();
-				
-				palabras[i] = word;
 				
 				System.out.println("Indica la fila: ");								// Pedir la fila
 				row = Teclado.rangNum(1, size, Teclado.Range.BothIncluded) - 1;
@@ -128,214 +127,235 @@ public class SopaDeLetras {
 				
 				if(word.length() <= size) {
 					
-					if(word.matches("[A-ZÑ]{1}[a-zñ]+([A-ZÑ]{1}[a-zñ]*)*") == true) {
+					for(j = 0; j < palabras.length; j++) {
+						if(word.equals(palabras[j])) {
+							same = true;
+						}
+					}
+					
+					if(!same) {
 						
-						if(orient == 1) {				// De izquierda a derecha
-							if(column + word.length() <= size) {
-								
-								for(j = column, k = 0; k < word.length(); j++, k++) {		// Bucle para comprobar si hay palabras que se cruzan
-									if(sopa[row][j] == ' ' || sopa[row][j] == word.charAt(k)) {
-										aid++;
+						if(word.matches("[A-ZÑ]{1}[a-zñ]+([A-ZÑ]{1,2}[a-zñ]+)*") == true) {
+							
+							if(orient == 1) {				// De izquierda a derecha
+								if(column + word.length() <= size) {
+									
+									for(j = column, k = 0; k < word.length(); j++, k++) {		// Bucle para comprobar si hay palabras que se cruzan
+										if(sopa[row][j] == ' ' || sopa[row][j] == word.charAt(k)) {
+											aid++;
+										}
 									}
-								}
-								
-								if(aid == word.length()) {
-									for(j = column, k = 0; k < word.length(); j++, k++) {	// Bucle para añadir la palabra
-										sopa[row][j] = word.charAt(k);
+									
+									if(aid == word.length()) {
+										palabras[i] = word;
+										for(j = column, k = 0; k < word.length(); j++, k++) {	// Bucle para añadir la palabra
+											sopa[row][j] = word.charAt(k);
+										}
+										
+									}else {
+										exit = false;
+										System.out.println("La palabra coincide con otra con la cuál no comparte la misma letra en la intersección.");
 									}
 									
 								}else {
 									exit = false;
-									System.out.println("La palabra coincide con otra con la cuál no comparte la misma letra en la intersección.");
+									System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
 								}
 								
-							}else {
-								exit = false;
-								System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
-							}
-							
-						}else if(orient == 2) {			// De derecha a izquierda
-							if(column - word.length() >= -1) {
-								
-								for(j = column, k = 0; k < word.length(); j--, k++) {
-									if(sopa[row][j] == ' ' || sopa[row][j] == word.charAt(k)) {
-										aid++;
-									}
-								}
-								
-								if(aid == word.length()) {
+							}else if(orient == 2) {			// De derecha a izquierda
+								if(column - word.length() >= -1) {
 									
 									for(j = column, k = 0; k < word.length(); j--, k++) {
-										sopa[row][j] = word.charAt(k);
+										if(sopa[row][j] == ' ' || sopa[row][j] == word.charAt(k)) {
+											aid++;
+										}
+									}
+									
+									if(aid == word.length()) {
+										palabras[i] = word;
+										for(j = column, k = 0; k < word.length(); j--, k++) {
+											palabras[i] = word;
+											sopa[row][j] = word.charAt(k);
+										}
+										
+									}else {
+										exit = false;
+										System.out.println("La palabra coincide con otra con la cuál no comparte la misma letra en la intersección.");
 									}
 									
 								}else {
+									System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
 									exit = false;
-									System.out.println("La palabra coincide con otra con la cuál no comparte la misma letra en la intersección.");
 								}
 								
-							}else {
-								System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
-								exit = false;
-							}
-							
-						}else if(orient == 3) {			// De arriba hacia abajo
-							if(row + word.length() <= size) {
-								
-								for(j = row, k = 0; k < word.length(); j++, k++) {
-									if(sopa[j][column] == ' ' || sopa[j][column] == word.charAt(k)) {
-										aid++;
-									}
-								}
-								
-								if(aid == word.length()) {
+							}else if(orient == 3) {			// De arriba hacia abajo
+								if(row + word.length() <= size) {
 									
 									for(j = row, k = 0; k < word.length(); j++, k++) {
-										sopa[j][column] = word.charAt(k);
+										if(sopa[j][column] == ' ' || sopa[j][column] == word.charAt(k)) {
+											aid++;
+										}
+									}
+									
+									if(aid == word.length()) {
+										palabras[i] = word;
+										
+										for(j = row, k = 0; k < word.length(); j++, k++) {
+											sopa[j][column] = word.charAt(k);
+										}
+										
+									}else {
+										exit = false;
+										System.out.println("La palabra coincide con otra con la cuál no comparte la misma letra en la intersección.");
 									}
 									
 								}else {
+									System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
 									exit = false;
-									System.out.println("La palabra coincide con otra con la cuál no comparte la misma letra en la intersección.");
 								}
 								
-							}else {
-								System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
-								exit = false;
-							}
-							
-						}else if(orient == 4) {			// De abajo hacia arriba
-							if(row - word.length() >= -1) {
-								
-								for(j = row, k = 0; k < word.length(); j--, k++) {
-									if(sopa[j][column] == ' ' || sopa[j][column] == word.charAt(k)) {
-										aid++;
-									}
-								}
-								
-								if(aid == word.length()) {
+							}else if(orient == 4) {			// De abajo hacia arriba
+								if(row - word.length() >= -1) {
 									
 									for(j = row, k = 0; k < word.length(); j--, k++) {
-										sopa[j][column] = word.charAt(k);
+										if(sopa[j][column] == ' ' || sopa[j][column] == word.charAt(k)) {
+											aid++;
+										}
+									}
+									
+									if(aid == word.length()) {
+										palabras[i] = word;
+										
+										for(j = row, k = 0; k < word.length(); j--, k++) {
+											sopa[j][column] = word.charAt(k);
+										}
+										
+									}else {
+										exit = false;
+										System.out.println("La palabra coincide con otra con la cuál no comparte la misma letra en la intersección.");
 									}
 									
 								}else {
+									System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
 									exit = false;
-									System.out.println("La palabra coincide con otra con la cuál no comparte la misma letra en la intersección.");
 								}
 								
-							}else {
-								System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
-								exit = false;
-							}
-							
-						}else if(orient == 5) {			// Diagonal arriba-izquierda
-							if(row - word.length() >= -1 && column - word.length() >= -1) {
-								
-								for(j = row, m = column, k = 0; k < word.length(); j--, m--, k++) {
-									if(sopa[j][m] == ' ' || sopa[j][m] == word.charAt(k)) {
-										aid++;
-									}
-								}
-								
-								if(aid == word.length()) {
+							}else if(orient == 5) {			// Diagonal arriba-izquierda
+								if(row - word.length() >= -1 && column - word.length() >= -1) {
 									
 									for(j = row, m = column, k = 0; k < word.length(); j--, m--, k++) {
-										sopa[j][m] = word.charAt(k);
+										if(sopa[j][m] == ' ' || sopa[j][m] == word.charAt(k)) {
+											aid++;
+										}
+									}
+									
+									if(aid == word.length()) {
+										palabras[i] = word;
+										
+										for(j = row, m = column, k = 0; k < word.length(); j--, m--, k++) {
+											sopa[j][m] = word.charAt(k);
+										}
+										
+									}else {
+										exit = false;
+										System.out.println("La palabra coincide con otra con la cuál no comparte la misma letra en la intersección.");
 									}
 									
 								}else {
+									System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
 									exit = false;
-									System.out.println("La palabra coincide con otra con la cuál no comparte la misma letra en la intersección.");
 								}
 								
-							}else {
-								System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
-								exit = false;
-							}
-							
-						}else if(orient == 6) {			// Diagonal arriba-derecha
-							if(row - word.length() >= -1 && column + word.length() <= size) {
-								
-								for(j = row, m = column, k = 0; k < word.length(); j--, m++, k++) {
-									if(sopa[j][m] == ' ' || sopa[j][m] == word.charAt(k)) {
-										aid++;
-									}
-								}
-								
-								if(aid == word.length()) {
+							}else if(orient == 6) {			// Diagonal arriba-derecha
+								if(row - word.length() >= -1 && column + word.length() <= size) {
 									
 									for(j = row, m = column, k = 0; k < word.length(); j--, m++, k++) {
-										sopa[j][m] = word.charAt(k);
+										if(sopa[j][m] == ' ' || sopa[j][m] == word.charAt(k)) {
+											aid++;
+										}
+									}
+									
+									if(aid == word.length()) {
+										palabras[i] = word;
+										
+										for(j = row, m = column, k = 0; k < word.length(); j--, m++, k++) {
+											sopa[j][m] = word.charAt(k);
+										}
+										
+									}else {
+										exit = false;
+										System.out.println("La palabra coincide con otra con la cuál no comparte la misma letra en la intersección.");
 									}
 									
 								}else {
+									System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
 									exit = false;
-									System.out.println("La palabra coincide con otra con la cuál no comparte la misma letra en la intersección.");
 								}
 								
-							}else {
-								System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
-								exit = false;
-							}
-							
-						}else if(orient == 7) {			// Diagonal abajo-izquierda
-							if(row + word.length() <= size && column - word.length() >= -1) {
-								
-								for(j = row, m  = column, k = 0; k < word.length(); j++, m--, k++) {
-									if(sopa[j][m] == ' ' || sopa[j][m] == word.charAt(k)) {
-										aid++;
-									}
-								}
-								
-								if(aid == word.length()) {
+							}else if(orient == 7) {			// Diagonal abajo-izquierda
+								if(row + word.length() <= size && column - word.length() >= -1) {
 									
 									for(j = row, m  = column, k = 0; k < word.length(); j++, m--, k++) {
-										sopa[j][m] = word.charAt(k);
+										if(sopa[j][m] == ' ' || sopa[j][m] == word.charAt(k)) {
+											aid++;
+										}
+									}
+									
+									if(aid == word.length()) {
+										palabras[i] = word;
+										
+										for(j = row, m  = column, k = 0; k < word.length(); j++, m--, k++) {
+											sopa[j][m] = word.charAt(k);
+										}
+										
+									}else {
+										exit = false;
+										System.out.println("La palabra coincide con otra con la cuál no comparte la misma letra en la intersección.");
 									}
 									
 								}else {
+									System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
 									exit = false;
-									System.out.println("La palabra coincide con otra con la cuál no comparte la misma letra en la intersección.");
 								}
 								
-							}else {
-								System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
-								exit = false;
-							}
-							
-						}else if(orient == 8) {			// Diagonal abajo-derecha
-							if(row + word.length() <= size && column + word.length() <= size) {
-								
-								for(j = row, m = column, k = 0; k < word.length(); j++, m++, k++) {
-									if(sopa[j][m] == ' ' || sopa[j][m] == word.charAt(k)) {
-										aid++;
-									}
-								}
-								
-								if(aid == word.length()) {
+							}else if(orient == 8) {			// Diagonal abajo-derecha
+								if(row + word.length() <= size && column + word.length() <= size) {
 									
 									for(j = row, m = column, k = 0; k < word.length(); j++, m++, k++) {
-										sopa[j][m] = word.charAt(k);
+										if(sopa[j][m] == ' ' || sopa[j][m] == word.charAt(k)) {
+											aid++;
+										}
+									}
+									
+									if(aid == word.length()) {
+										palabras[i] = word;
+										
+										for(j = row, m = column, k = 0; k < word.length(); j++, m++, k++) {
+											sopa[j][m] = word.charAt(k);
+										}
+										
+									}else {
+										exit = false;
+										System.out.println("La palabra coincide con otra con la cuál no comparte la misma letra en la intersección.");
 									}
 									
 								}else {
+									System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
 									exit = false;
-									System.out.println("La palabra coincide con otra con la cuál no comparte la misma letra en la intersección.");
 								}
 								
-							}else {
-								System.out.println("La palabra sobrepasa el tamaño de la sopa de letras.");
-								exit = false;
 							}
 							
+						}else {
+							exit = false;
+							System.out.println("La palabra no tiene una sintaxis válida.");
 						}
 						
 					}else {
 						exit = false;
-						System.out.println("La palabra no tiene una sintaxis válida.");
+						System.out.println("No puedes introducir la misma palabra de nuevo.");
 					}
-					
+						
 				}else {
 					exit = false;
 					System.out.println("La longitud de la palabra no puede ser mayor al tamaño de la sopa de letras.");
@@ -464,7 +484,33 @@ public class SopaDeLetras {
 		
 		int j, k;
 		
-		for(j = 0; j < sopa.length; j++) {							// Mostrar la sopa de letras con la palabra actual añadida
+		for(j = 0; j < sopa.length; j++) {							// Mostrar la sopa de letras
+			System.out.print((j + 1) + "\t");
+			for(k = 0; k < sopa.length; k++) {
+				
+				System.out.print(" " + sopa[j][k] + " |");
+				
+			}
+			System.out.println();
+		}
+		System.out.print("\t");
+		for(j= 0; j < sopa.length; j++) {							// Números indicativos de las filas y columnas de la sopa
+			if(j < 9) {
+				System.out.print(" " + (j + 1) + "  ");
+			}else {
+				System.out.print(" " + (j + 1) + " ");
+			}
+		}
+		
+		System.out.println();
+		
+	}
+	
+	public static void mostrarSopaLetras(String sopa[][]) {		/* Sopa = Sopa de letras | Referencia | Salida */
+		
+		int j, k;
+		
+		for(j = 0; j < sopa.length; j++) {							// Mostrar la sopa de letras
 			System.out.print((j + 1) + "\t");
 			for(k = 0; k < sopa.length; k++) {
 				
@@ -513,27 +559,9 @@ public class SopaDeLetras {
 			words[i] = palabras[i];
 		}
 		
-		do {
+		mostrarSopaLetras(sopaLetras);
 		
-			for(i = 0; i < sopaLetras.length; i++) {							// Mostrar la sopa de letras completa
-				System.out.print((i + 1) + "\t");
-				for(j = 0; j < sopaLetras.length; j++) {
-					
-					System.out.print(" " + sopaLetras[i][j] + " |");
-					
-				}
-				System.out.println();
-			}
-			System.out.print("\t");
-			for(i = 0; i < sopaLetras.length; i++) {							// Números indicativos de las filas y columnas de la sopa
-				if(i < 9) {
-					System.out.print(" " + (i + 1) + "  ");
-				}else {
-					System.out.print(" " + (i + 1) + " ");
-				}
-			}
-			
-			System.out.println();
+		do {
 			
 			System.out.println("Indica la fila de la palabra que has encontrado: ");
 			row = Teclado.rangNum(1, sopaLetras.length, Teclado.Range.BothIncluded) - 1;
@@ -569,7 +597,7 @@ public class SopaDeLetras {
 							correct = true;
 							
 							for(i = column, k = 0; k < words[m].length(); i++, k++) {
-								sopaLetras[row][i] = ROJO + sopaLetras[row][i] + RESET;
+								sopaLetras[row][i] = ROJO + sopa[row][i] + RESET;
 							}
 							
 						}else {
@@ -622,7 +650,7 @@ public class SopaDeLetras {
 							correct = true;
 							
 							for(i = column, k = 0; k < words[m].length(); i--, k++) {
-								sopaLetras[row][i] = ROJO + sopaLetras[row][i] + RESET;
+								sopaLetras[row][i] = ROJO + sopa[row][i] + RESET;
 							}
 							
 						}else {
@@ -675,7 +703,7 @@ public class SopaDeLetras {
 							correct = true;
 							
 							for(i = row, k = 0; k < words[m].length(); i++, k++) {
-								sopaLetras[i][column] = ROJO + sopaLetras[i][column] + RESET;
+								sopaLetras[i][column] = ROJO + sopa[i][column] + RESET;
 							}
 							
 						}else {
@@ -728,7 +756,7 @@ public class SopaDeLetras {
 							correct = true;
 							
 							for(i = row, k = 0; k < words[m].length(); i--, k++) {
-								sopaLetras[i][column] = ROJO + sopaLetras[i][column] + RESET;
+								sopaLetras[i][column] = ROJO + sopa[i][column] + RESET;
 							}
 							
 						}else {
@@ -781,7 +809,7 @@ public class SopaDeLetras {
 							correct = true;
 							
 							for(i = row, j = column, k = 0; k < words[m].length(); i--, j--, k++) {
-								sopaLetras[i][j] = ROJO + sopaLetras[i][j] + RESET;
+								sopaLetras[i][j] = ROJO + sopa[i][j] + RESET;
 							}
 							
 						}else {
@@ -834,7 +862,7 @@ public class SopaDeLetras {
 							correct = true;
 							
 							for(i = row, j = column, k = 0; k < words[m].length(); i--, j++, k++) {
-								sopaLetras[i][j] = ROJO + sopaLetras[i][j] + RESET;
+								sopaLetras[i][j] = ROJO + sopa[i][j] + RESET;
 							}
 							
 						}else {
@@ -887,7 +915,7 @@ public class SopaDeLetras {
 							correct = true;
 							
 							for(i = row, j = column, k = 0; k < words[m].length(); i++, j--, k++) {
-								sopaLetras[i][j] = ROJO + sopaLetras[i][j] + RESET;
+								sopaLetras[i][j] = ROJO + sopa[i][j] + RESET;
 							}
 							
 						}else {
@@ -940,7 +968,7 @@ public class SopaDeLetras {
 							correct = true;
 							
 							for(i = row, j = column, k = 0; k < words[m].length(); i++, j++, k++) {
-								sopaLetras[i][j] = ROJO + sopaLetras[i][j] + RESET;
+								sopaLetras[i][j] = ROJO + sopa[i][j] + RESET;
 							}
 							
 						}else {
@@ -972,6 +1000,8 @@ public class SopaDeLetras {
 			}
 			
 			System.out.println();
+			
+			mostrarSopaLetras(sopaLetras);
 		
 		}while(successWords < words.length);
 		
