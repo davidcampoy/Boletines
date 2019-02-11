@@ -10,10 +10,7 @@ public class Persona {
 	
 	public Persona() {
 		
-		nombre = "\"Sin nombre\"";
-		edad = 0;
-		altura = 0.0f;
-		ocupacion = "\"Sin ocupación\"";
+		this("Sin nombre", 0, 0.0f, "Sin ocupación", 0);
 		
 	}
 	
