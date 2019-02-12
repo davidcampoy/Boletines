@@ -29,6 +29,33 @@ public class Alimento {
 	
 	boolean esDietetico() {
 		
+		if(lipidos < 20 && vitaminas != "B") {
+			return true;
+			
+		}else {
+			return false;
+		}
+	}
+	
+	public String toString() {
+		
+		String descripcion = "Nombre: " + nombre + "\nLípidos: " + lipidos + "\nHidratos de carbono: " + hidratosCarbono + "\nProteinas: " + proteinas + "\nDe origen animal: " + origenAnimal + "\nVitaminas: " + vitaminas + "\nMinerales: " + minerales;
+		return descripcion;
+		
+	}
+	
+	boolean esRecomendableParaDeportistas() {
+		
+		if(proteinas > 10 && proteinas < 15 && lipidos > 30 && lipidos < 35 && hidratosCarbono > 55 && hidratosCarbono < 65) {
+			return true;
+			
+		}else {
+			return false;
+		}
+	}
+	
+	double calculaContenidoEnergetico() {
+		
 		
 		
 	}

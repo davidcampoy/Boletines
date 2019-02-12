@@ -65,15 +65,11 @@ public class Persona {
 	}
 	
 	void sumarSueldo(Persona ppl) {
-		
 		this.sueldo += ppl.sueldo;
-		
 	}
 	
 	void doblarSueldo() {
-		
 		this.sueldo *= 2;
-		
 	}
 
 }
