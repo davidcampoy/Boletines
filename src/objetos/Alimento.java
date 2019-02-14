@@ -54,10 +54,10 @@ public class Alimento {
 		}
 	}
 	
-	double calculaContenidoEnergetico() {
-		
-		
-		
-	}
+//	double calculaContenidoEnergetico() {
+//		
+//		
+//		
+//	}
 
 }
