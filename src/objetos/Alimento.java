@@ -2,10 +2,11 @@ package objetos;
 
 public class Alimento {
 	
-	private String nombre, origenAnimal, vitaminas, minerales;
+	private String nombre, origenAnimal;
+	private char  vitaminas, minerales;
 	private int lipidos, hidratosCarbono, proteinas;
 	
-	public Alimento(String nombre, int lipidos, int hidratosCarbono, int proteinas, String origenAnimal, String vitaminas, String minerales) {
+	public Alimento(String nombre, int lipidos, int hidratosCarbono, int proteinas, String origenAnimal, char vitaminas, char minerales) {
 		
 		this.nombre = nombre;
 		this.lipidos = lipidos;
@@ -24,12 +25,74 @@ public class Alimento {
 	}
 	
 	public enum cantidad{
-		A, M, B;
+		ALTO('A'), MEDIO('M'), BAJO('B');
+		
+		private final char code;
+		
+		cantidad(char code){
+			this.code = code;
+		}
+		
+		char getCantidad(){
+			return code;
+		}
+	}
+	
+	String getNombre() {
+		return nombre;
+	}
+	
+	void setLipidos(int lipidos) {
+		this.lipidos = lipidos;
+	}
+	
+	int getLipidos() {
+		return lipidos;
+	}
+	
+	void setHidratosCarbono(int hidratosCarbono) {
+		this.hidratosCarbono = hidratosCarbono;
+	}
+	
+	int getHidratosCarbono() {
+		return hidratosCarbono;
+	}
+	
+	void setProteinas(int proteinas) {
+		this.proteinas = proteinas;
+	}
+	
+	int getProteinas() {
+		return proteinas;
+	}
+	
+	void setOrigenAnimal(String origenAnimal) {
+		this.origenAnimal = origenAnimal;
+	}
+	
+	String getOrigenAnimal() {
+		return origenAnimal;
+	}
+	
+	void setVitaminas(char vitaminas) {
+		this.vitaminas = vitaminas;
+	}
+	
+	char getVitaminas() {
+		return vitaminas;
+	}
+	
+	void setMinerales(char minerales) {
+		this.minerales = minerales;
+	}
+	
+	char getMinerales() {
+		return minerales;
 	}
 	
 	boolean esDietetico() {
 		
-		if(lipidos < 20 && vitaminas != "B") {
+		if(lipidos < 20 && vitaminas != cantidad.BAJO.getCantidad()) {
 			return true;
 			
 		}else {
@@ -39,14 +102,14 @@ public class Alimento {
 	
 	public String toString() {
 		
-		String descripcion = "Nombre: " + nombre + "\nLípidos: " + lipidos + "\nHidratos de carbono: " + hidratosCarbono + "\nProteinas: " + proteinas + "\nDe origen animal: " + origenAnimal + "\nVitaminas: " + vitaminas + "\nMinerales: " + minerales;
+		String descripcion = "Nombre: " + nombre + "\nLípidos: " + lipidos + "%\nHidratos de carbono: " + hidratosCarbono + "%\nProteinas: " + proteinas + "%\nDe origen animal: " + origenAnimal + "\nVitaminas: " + vitaminas + "\nMinerales: " + minerales;
 		return descripcion;
 		
 	}
 	
 	boolean esRecomendableParaDeportistas() {
 		
-		if(proteinas > 10 && proteinas < 15 && lipidos > 30 && lipidos < 35 && hidratosCarbono > 55 && hidratosCarbono < 65) {
+		if(proteinas >= 10 && proteinas <= 15 && lipidos >= 30 && lipidos <= 35 && hidratosCarbono >= 55 && hidratosCarbono <= 65) {
 			return true;
 			
 		}else {
@@ -54,10 +117,18 @@ public class Alimento {
 		}
 	}
 	
-//	double calculaContenidoEnergetico() {
-//		
-//		
-//		
-//	}
+	double calculaContenidoEnergetico() {
+		
+		double kcalLipidos, kcalHC, kcalProteinas, totalKcal;
+		
+		kcalLipidos = lipidos * 9.4;
+		kcalHC = hidratosCarbono * 4.1;
+		kcalProteinas = proteinas * 5.3;
+		
+		totalKcal = kcalLipidos + kcalHC + kcalProteinas;
+		
+		return totalKcal / 100;
+		
+	}
 
 }
